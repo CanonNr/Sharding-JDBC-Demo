@@ -1,7 +1,9 @@
 package cn.lksun.test.mybatisplusshardingjdbc;
 
+import cn.lksun.test.mybatisplusshardingjdbc.entity.User;
 import cn.lksun.test.mybatisplusshardingjdbc.mapper.UserMapper;
 import cn.lksun.test.mybatisplusshardingjdbc.service.UserService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,8 +50,8 @@ class MybatisPlusShardingjdbcApplicationTests {
         // System.out.println(userMapper.selectByMap(map));
 
         // (6) Service CURD 通过条件构造器条件查询
-        // QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        // System.out.println(userService.getOne(userQueryWrapper.eq("name", "游客25")));
+         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+         System.out.println(userService.getOne(userQueryWrapper.eq("name", "游客25")));
 
     }
 

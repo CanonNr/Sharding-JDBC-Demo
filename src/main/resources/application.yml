@@ -8,12 +8,6 @@ mybatis-plus:
     use-generated-keys: true
 
 spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.16.2.30:3306/SeBaFi_Pro?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: SeBaFi_Pro
-    password: 6xzZB8bBssfTt225
   shardingsphere:
     datasource:
       names: ds1,ds2
