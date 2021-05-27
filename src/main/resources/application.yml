@@ -10,39 +10,46 @@ mybatis-plus:
 spring:
   shardingsphere:
     datasource:
-      names: ds1,ds2
+      names: ds1
       ds1:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://127.0.0.1:3306/test1?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
         username: test1
         password: 123456
-      ds2:
-        type: com.alibaba.druid.pool.DruidDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/test2?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-        username: test2
-        password: 123456
+#      ds2:
+#        type: com.alibaba.druid.pool.DruidDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        url: jdbc:mysql://127.0.0.1:3306/test2?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+#        username: test2
+#        password: 123456
     sharding:
       tables:
         user:
           key-generator:
             column: id
-            type: SNOWFLAKE
+            type: MyRule
+#            type: SNOWFLAKE
           # 真实数据节点，由数据源名（读写分离引用master-slave:data-source中的id属性） + 表名组成，以小数点分隔。
           # 多个表以逗号分隔，支持inline表达式。不填写表示将为现有已知的数据源 + 逻辑表名称生成真实数据节点。
           # 用于广播表（即每个库中都需要一个同样的表用于关联查询，多为字典表）或只分库不分表且所有库的表结构完全一致的情况。
-          actual-data-nodes: ds$->{1..2}.user_$->{1..2}
+          actual-data-nodes: ds1.user_$->{1..6},ds1.user_6_$->{1..2}
           # 分库策略
-          database‐strategy:
-            inline:
-              sharding‐column: id
-              algorithm‐expression: ds$->{ id % 2 + 1 }
+#          database‐strategy:
+#            inline:
+#              sharding‐column: id
+#              algorithm‐expression: ds$->{ id % 2 + 1 }
           # 分表策略
           table-strategy:
-            inline:
-              sharding-column: status
-              algorithm-expression: user_$->{ status % 2 + 1 }
+#            standard:
+#              sharding-columns: group_id  # 只能单列
+#              precise-algorithm-class-name: cn.lksun.test.mybatisplusshardingjdbc.config.UserPreciseUserLoginShardingAlgorithm
+            complex:
+              sharding-columns: group_id,id,status
+              algorithm-class-name: cn.lksun.test.mybatisplusshardingjdbc.config.SnoWalkerComplexShardingDB
+#            inline:
+#              sharding-column: group_id
+#              algorithm-expression: user_$->{ group_id }
     props:
       sql:
         # 打印sql

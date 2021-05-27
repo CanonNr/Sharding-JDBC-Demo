@@ -12,6 +12,8 @@ public class User {
 
     public String name;
 
+    public Integer groupId;
+
     public Integer Status;
 
 
