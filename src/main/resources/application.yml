@@ -33,7 +33,7 @@ spring:
           # 真实数据节点，由数据源名（读写分离引用master-slave:data-source中的id属性） + 表名组成，以小数点分隔。
           # 多个表以逗号分隔，支持inline表达式。不填写表示将为现有已知的数据源 + 逻辑表名称生成真实数据节点。
           # 用于广播表（即每个库中都需要一个同样的表用于关联查询，多为字典表）或只分库不分表且所有库的表结构完全一致的情况。
-          actual-data-nodes: ds1.user_$->{1..6},ds1.user_6_$->{1..2}
+          actual-data-nodes: ds1.user_$->{1..3}
           # 分库策略
 #          database‐strategy:
 #            inline:
@@ -44,13 +44,28 @@ spring:
 #            standard:
 #              sharding-columns: group_id  # 只能单列
 #              precise-algorithm-class-name: cn.lksun.test.mybatisplusshardingjdbc.config.UserPreciseUserLoginShardingAlgorithm
-            complex:
-              sharding-columns: group_id,id,status
-              algorithm-class-name: cn.lksun.test.mybatisplusshardingjdbc.config.SnoWalkerComplexShardingDB
-#            inline:
-#              sharding-column: group_id
-#              algorithm-expression: user_$->{ group_id }
+#            complex:
+#              sharding-columns: group_id,id,status
+#              algorithm-class-name: cn.lksun.test.mybatisplusshardingjdbc.config.SnoWalkerComplexShardingDB
+            inline:
+              sharding-column: group_id
+              algorithm-expression: user_$->{ group_id }
+        address:
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          actual-data-nodes: ds1.address_$->{1..3}
+          table-strategy:
+            inline:
+              sharding-column: group_id
+              algorithm-expression: address_$->{group_id}
+
     props:
       sql:
         # 打印sql
         show: true
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

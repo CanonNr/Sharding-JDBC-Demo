@@ -13,4 +13,7 @@
     <select id="getNameById" resultType="java.lang.String" parameterType="java.lang.Long">
         SELECT name FROM user WHERE id = #{id}
     </select>
+    <select id="getUser" resultType="cn.lksun.test.mybatisplusshardingjdbc.entity.User">
+        SELECT name FROM user WHERE id = #{id} AND group_id = #{groupId}
+    </select>
 </mapper>

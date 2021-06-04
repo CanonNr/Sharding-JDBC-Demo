@@ -26,22 +26,24 @@ class MybatisPlusShardingjdbcApplicationTests {
 
         // 插入100条数据,状态为1-4随机取
 
-        int [] arr = {1,2,3,4};
-        int [] group = {1,2,3,4,5,6};
+//        int [] arr = {1,2,3,4};
+//        int [] group = {1,2,3,4,5,6};
+//
+////        ArrayList<User> userList = new ArrayList<User>();
+//        for (int i = 0; i < 100; i++) {
+//            User user = new User();
+//            user.setName("游客"+i);
+//            int status = arr[(int) (Math.random() * arr.length)];
+//            user.setStatus(status);
+//            int groupId = group[(int) (Math.random() * group.length)];
+//            user.setGroupId(groupId);
+//            // (1) Mapper CURD 每次添加一条数据
+//             userMapper.insert(user);
+//            System.out.println("ok");
+//        }
 
-        ArrayList<User> userList = new ArrayList<User>();
-        for (int i = 0; i < 100; i++) {
-            User user = new User();
-            user.setName("游客"+i);
-            int status = arr[(int) (Math.random() * arr.length)];
-            user.setStatus(status);
-            int groupId = group[(int) (Math.random() * group.length)];
-            user.setGroupId(6);
-            userList.add(user);
-            // (1) Mapper CURD 每次添加一条数据
-             userMapper.insert(user);
-            System.out.println("ok");
-        }
+        User user = userMapper.getUser(1398215671751655425L, 5);
+        System.out.println(user.toString());
 
 
 //        User user = new User();
